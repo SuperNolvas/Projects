@@ -1,0 +1,780 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Integrating with GitHub Actions – CI/CD pipeline to deploy a Web App to Amazon EC2</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	/* white-space: pre-wrap; */
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+
+#header {
+	padding: 8em 0 0.1em 0;
+	height: 200px;
+}
+
+#header .logo {
+  display: block;
+  border-bottom: 0;
+  color: inherit;
+  font-weight: 900;
+  letter-spacing: 0.35em;
+  margin: 0 auto;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+
+#header .logo .symbol img {
+  display: inline-block;
+	vertical-align: middle;
+	padding-right: 20px;
+  height: 2em;
+}
+
+	
+</style></head><body><article id="95f6b792-8bd5-4ea5-b0a4-83b9f626d46b" class="page sans"><header id="header">
+	<div id="inner">
+		<!-- Logo -->
+		<a href="index.html" class="logo">
+			<span class="symbol"><img src="images/logo.svg" <span class="title">HOME</span>
+		</a></header>
+	</div>
+<img class="page-cover-image" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/pic01.jpg" style="object-position:center 50%"/><h1 class="page-title"><strong>Integrating with GitHub Actions – CI/CD pipeline to deploy a Web App to Amazon EC2</strong></h1><p class="page-description"></p><div class="page-body"><h2 id="6da0ccee-48eb-4d91-bfcf-79f9d6525dea" class="">Project Objectives</h2><p id="904e2580-b471-4665-82ee-ca88d257b6ce" class="">To utilise GitHub Actions to create a CI/CD workflow and AWS CodeDeploy to deploy a sample Java SpringBoot application to Amazon EC2 in an Autoscaling group. </p><p id="d473a30c-a43a-4fc6-a1a9-320c8862d177" class="">
+</p><p id="47786bf0-f2a1-4e23-98d3-161ab7534ebe" class="">Architecture overview. </p><figure id="2142823f-2dd8-4a03-8143-2720ed2be357" class="image"><a href="https://d2908q01vomqb2.cloudfront.net/7719a1c782a1ba91c031a682a0a2f8658209adbf/2022/03/27/1-ArchitectureDiagram.png"><img style="width:1296px" src="https://d2908q01vomqb2.cloudfront.net/7719a1c782a1ba91c031a682a0a2f8658209adbf/2022/03/27/1-ArchitectureDiagram.png"/></a></figure><p id="039be20f-a8ea-4d1e-a5ff-f30ebbc40763" class="">
+</p><p id="72a645b5-d4be-4d94-93a6-1b683b45ae69" class="">This article presents an overview of the project, focusing on the distilled essence of the process. Within this article, I aim to convey key findings and relevant insights encountered during the course of my exploration with this project. If you want to follow the full process yourself then you can do so via the following link &gt; <a href="https://aws.amazon.com/blogs/devops/integrating-with-github-actions-ci-cd-pipeline-to-deploy-a-web-app-to-amazon-ec2/">https://aws.amazon.com/blogs/devops/integrating-with-github-actions-ci-cd-pipeline-to-deploy-a-web-app-to-amazon-ec2/</a></p><p id="6937be77-5e1c-4ed6-bb00-b29ce425e008" class="">
+</p><p id="79d2e9a6-ad97-48fd-a05b-8ce57657d819" class="">Prerequisites:</p><ul id="42898e0d-f523-470e-a7be-72ba6ab9bd97" class="bulleted-list"><li style="list-style-type:disc">A GitHub account</li></ul><ul id="2dc301aa-fc5a-4e11-a709-b3858910f4db" class="bulleted-list"><li style="list-style-type:disc">Git installed and linked to your GitHub account (I generated an ssh key and added the token to GitHub and then authenticated via the command line). See here for further information &gt; <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account</a></li></ul><ul id="64bfe300-e975-416e-a3bd-9df2df6d2f1a" class="bulleted-list"><li style="list-style-type:disc">Basic Linux command line knowledge. e.g. Navigate files and folders and hidden files and folders. Edit files from the terminal.</li></ul><ul id="7ab258ca-cc40-4782-a9c9-c97f9b17773a" class="bulleted-list"><li style="list-style-type:disc">An AWS Free Tier account - Make sure to clean up resources once the project is completed to avoid excessive charges.</li></ul><p id="99d49289-1089-4ae1-b160-8dcf0d1574dd" class="">
+</p><h2 id="163bd4ed-336c-47ef-993e-aef13d15f018" class="">Create repository on GitHub</h2><p id="d2940e0e-00a8-4d98-bbae-76c0e0d0fdd1" class="">
+</p><figure id="b89898a8-0e9b-4e9a-8adc-b2bca713abc8" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled.png"><img style="width:1296px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled.png"/></a></figure><p id="7f351104-a131-44b2-b608-07c6a3f10635" class="">
+</p><p id="ee33f500-d21c-4d12-b739-7970af918a7b" class="">Clone project source code to local folder and copy contents to local GitHub repo </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6efaae34-3cd0-4675-a9b3-e15d0ec24299" class="code"><code class="language-Bash">$ git clone https://github.com/aws-samples/aws-codedeploy-github-actions-deployment.git</code></pre><p id="d8c8acfa-a96f-44d0-8110-6cc30b0ba1c7" class="">
+</p><p id="b0fcccb2-3d75-4e2b-91eb-b3dafe270adc" class="">I have Git authenticated with my GitHub account using ssh. The ssh key was generated via the Linux command line and then the authentication key was added to GitHub some more information relating to this located at this URL &gt;</p><h2 id="7cc0d04c-6357-4711-a7e2-be41c01f3147" class="">Some tips </h2><p id="1ba82316-f7c6-4704-8e92-574c26823c37" class="">For checking GitHub access and which folders in your home folder for example have .git files in them and are therefore local Git repos. git status will also tell you the current status of the repo and if it synced to the GitHub repo, if there’s any commits ready to be pushed so it displays the state of the working directory and the staging area. </p><p id="52d0450a-da62-4862-8d4c-1acc2f0dbee4" class="">
+</p><p id="ec64b4b7-669f-429d-92d1-2a2a4559298d" class="">To test ssh access to GitHub run </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="88ad0da7-037d-444b-8866-cfec18a02248" class="code"><code class="language-Bash">$ ssh -T git@github.com
+
+# Example output 
+Hi SuperNolvas! You&#x27;ve successfully 
+authenticated, but GitHub does not 
+provide shell access.</code></pre><p id="f08fb996-2268-4624-a8b6-d8c72c616cac" class="">Find existing Git repos in a folder </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="12d3b591-4b96-43bb-8e78-c31211b3e259" class="code"><code class="language-Bash">$ find . -name &quot;. git&quot;
+
+# Example output
+./docker-fundamentals/.git
+./GitActionsDeploytoAWS/.git</code></pre><p id="782c9d9e-c69f-498f-9e4a-0594af3c881e" class="">
+</p><h2 id="abedcdf3-56a7-4532-90fa-b04bf789d6d9" class="">Deploy the CloudFormation Template</h2><p id="1a87a07d-60c1-4b64-9c74-138fd8fee931" class="">
+</p><p id="c71ae3a9-132d-428b-a42d-592f6f1432e6" class="">Using AWS CloudFormation create a stack and upload the template.yml file. This next part isn’t part of the tutorial but I noticed a link to open in designer so of course I had a look and the next screen shows the actual infrastructure architecture that will created from the template file.</p><figure id="ff7200fb-0533-41bf-bf34-4eefea85cf65" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%201.png"><img style="width:1248px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%201.png"/></a></figure><p id="bea71b4c-f0f7-4cb3-9ef1-67244581f6ad" class="">
+</p><p id="677fe7cd-f9b1-40b2-beba-51e7c7a20dbc" class="">OK so now we have parameter summary (see image below) from the uploaded CloudFormation template. Lets go through this. So we have a VPC (Virtual Private Cloud) this VPC will contain our provisioned AWS resources. So we have a VPC with a /16 CIDR subnet this would give us a 255.255.0.0 subnet with a total host availability of 65535 hosts. Next we have 4 subnets defined, two are labelled as Public and two are labelled as Private. They all have a /24 CIDR and this gives each subnet a host availability of 256 hosts. It is IMPORTANT to note that naming these subnets Public and Private has no bearing on whether they are really Public or Private and this is actually defined by attached gateways e.g. IGW and NAT and the routing from these gateways to the respective subnets. So in this project the private subnets don’t have any Internet Gateway (IGW) routing. </p><p id="4074187e-936b-4c54-ab17-ac0641a9e9b9" class="">
+</p><p id="805469b2-4bb4-40c0-93c6-e92195e519be" class="">We’re also selecting the EC2 compute instance type t2.medium, so the instance type is T2 and this instance has burstable performance so able to scale up its performance above its baseline performance. It has a modest specification of 2 vCPUs and 4GB RAM. </p><p id="35233447-b076-4a99-889c-631184cf4980" class="">
+</p><p id="74b4e287-5cab-4945-9ea5-0943015a3716" class="">Autoscaling - When performance requirement exceeds a set threshold, this could be set by a CloudWatch alarm for example then more EC2 instances will be created. So in this case the set parameters are allowing for a maximum of 2 EC2 instances to be managed by an Autoscaling event.</p><p id="7e115c06-af34-4ed8-b39a-5e73f44c7bff" class="">Lastly we have the GitHub repository so I’ve added my personal repository and also we have the GitHub Actions ThumbprintList. I found an article here that describes why this value is used &gt;</p><p id="1e67f83d-1186-47cd-99a0-b55b135e0eb8" class=""><a href="https://github.blog/changelog/2022-01-13-github-actions-update-on-oidc-based-deployments-to-aws/">https://github.blog/changelog/2022-01-13-github-actions-update-on-oidc-based-deployments-to-aws/</a></p><p id="24d2d59e-3d45-4d5a-bf75-5effbaa4b562" class="">This is to fix a problem renewing GitHub Actions SSL certificates due to an unexpected change in the intermediate certificate authority and relates to IAM OIDC which we will use later on in this project. </p><figure id="83a2d7db-5d79-4935-962c-636bf732d653" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%202.png"><img style="width:576px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%202.png"/></a></figure><p id="4afeb9a6-cb82-4623-a978-4ef7eb1f67e4" class="">
+</p><p id="fd4f914f-f690-477f-87a9-4f82fbc0e242" class="">It will take CloudFormation approximately 10 minutes to create all of the resources. This stack will create the following resources.</p><ul id="d80ceb46-90d6-4573-aaad-b4d38246d759" class="bulleted-list"><li style="list-style-type:disc">Two Amazon EC2 Linux instances with Tomcat server and CodeDeploy agent are installed</li></ul><ul id="6ddc6c09-e546-4679-a32c-6fbbc2a172bb" class="bulleted-list"><li style="list-style-type:disc">Autoscaling group with Internet Application load balancer</li></ul><ul id="f55681d7-07e7-442e-89be-4d835ad63b2d" class="bulleted-list"><li style="list-style-type:disc">CodeDeploy application name and deployment group</li></ul><ul id="6c638050-c10a-4b0f-8dc3-7e872dc11c22" class="bulleted-list"><li style="list-style-type:disc">Amazon S3 bucket to store build artifacts</li></ul><ul id="d6405f1f-4528-4aa8-8da5-9c6be624ed9e" class="bulleted-list"><li style="list-style-type:disc">Identity and Access Management (IAM) OIDC identity provider</li></ul><ul id="f1f22c99-f72f-4249-98f7-c989e5a7a5c1" class="bulleted-list"><li style="list-style-type:disc">Instance profile for Amazon EC2</li></ul><ul id="1655f149-2c28-4d7f-a4a6-7ba597e4cad8" class="bulleted-list"><li style="list-style-type:disc">Service role for CodeDeploy</li></ul><ul id="c133ae3d-3631-406d-a6ae-71d681513776" class="bulleted-list"><li style="list-style-type:disc">Security groups for ALB and Amazon EC2</li></ul><p id="4c52a419-fab3-4db4-9c47-3d3bb1247dce" class="">
+</p><p id="ee9f5eaf-321f-44e2-93e2-e9f8d4b433ae" class="">Stack deployment progress &gt;</p><figure id="22f0221e-5d44-4c43-849d-366d45f4cc42" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%203.png"><img style="width:1248px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%203.png"/></a></figure><p id="2cb686f6-41c7-4898-ac54-39ce1171de71" class="">
+</p><figure id="a4da74e8-63d6-4be9-83d0-4099913b6fa0" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%204.png"><img style="width:1248px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%204.png"/></a></figure><p id="1fd2d765-b75e-4be9-8356-2a994f3615ae" class="">Going back one level on the ‘breadcrumb’ menu above we get a description of the process and also the overall status</p><figure id="a223a427-c883-4ed7-b644-d69632b948c0" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%205.png"><img style="width:1248px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%205.png"/></a></figure><p id="7e104b6c-7e43-40a2-b85f-f9ed52c8c754" class="">Now we can see that stack has been created successfully</p><figure id="ce7db5b7-86ab-41db-a817-272cbf29efbc" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%206.png"><img style="width:1248px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%206.png"/></a></figure><p id="c6fb483a-4039-4886-9830-45dd15b6168a" class="">
+</p><p id="3aae27a0-30fa-4179-aff1-9b0501698365" class="">Copy the S3 bucket name and also the IAM role ARN to a notes app / editor etc on your system. We’re going to use these to update our deploy.yml and after-install script files in the project root folder</p><figure id="ddf42c98-b353-4fa3-8bf3-933faf5e3f97" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%207.png"><img style="width:1248px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%207.png"/></a></figure><p id="62ce2999-273d-4d55-be6c-03bc17bde249" class="">
+</p><p id="3ce1dc77-df8d-4463-8058-3c54d9b3be3e" class="">Locate <em>GITHUBREPO/.github/workflows/deploy.yml </em></p><p id="e8a7c2d1-d276-42f6-af61-d8fbfd8c5a61" class="">This folder is your local folder and as this is a dotfile (.github) it will be hidden, but you can still navigate to this folder via the terminal. Here’s an example to find and edit the YAML file &gt;</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="10d8e9d3-cfca-46e5-b34c-ba4a2c1dd608" class="code"><code class="language-Bash">cd GitActionsDeploytoAWS/.github/workflows/
+phil@pop-os:~/GitActionsDeploytoAWS/.github/workflows$
+
+$ sudo nano deploy.yml</code></pre><p id="2d44c55b-35c4-4617-b0ed-911ca9664d05" class="">
+</p><p id="7aece416-502d-4130-b633-320806f7d76f" class="">Now we need to edit two parameters in this deploy.yml file. </p><figure id="52b25802-dfc0-4c34-a578-bf0c8c5592ab" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%208.png"><img style="width:624px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%208.png"/></a></figure><p id="78f750ee-d56a-44ef-9f75-e4517af40bce" class="">So for AWS_REGION I need to enter the region where we deployed the Cloudformation stack so us-east-1 and the S3BUCKET is the Deployment Bucket we copied from the Outputs tab in the Cloudformation console shown in a previous image. Once this is done save and exit this file.</p><p id="0d0b06c4-4134-4ffc-b466-92cd864b3575" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0b56326c-582e-495c-9585-26240fb5968d" class="code"><code class="language-Bash">cd GitActionsDeploytoAWS/aws/scripts/
+phil@pop-os:~/GitActionsDeploytoAWS/aws/scripts$
+
+sudo nano after-install.sh</code></pre><p id="4038f37f-56eb-46cf-b8ac-dea38bef1df9" class="">Enter the name of the s3 bucket overwriting the ##s3-bucket## portion of the path</p><figure id="7f3b5e58-c9ee-4203-acce-9c099aed94d9" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%209.png"><img style="width:586px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%209.png"/></a></figure><p id="223c56d2-e02c-48ea-bb3c-746f2d3b9a7f" class="">Push changes to your GitHub repo</p><p id="04f9d01b-f2a5-4210-bdcf-efd9e2bdead1" class="">Make sure you’re inside the root folder of your project and verify this by running</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1dbacd72-f4d8-4231-b717-c236c6e67b83" class="code"><code class="language-Bash">$ git remote -v
+
+#Expected Output 
+
+origin git@github.com:&lt;username&gt;/GitActionsDeploytoAWS.git (fetch)
+origin git@github.com:&lt;username&gt;/GitActionsDeploytoAWS.git (push)</code></pre><p id="7d047616-136e-4d91-9199-3843c8208547" class="">Next stage, commit and push changes to your GitHub repo</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5d77d74a-1309-43b1-9284-fccf5ca6be19" class="code"><code class="language-Bash"># Stage changes
+git add .
+# Make commit and describe commit with a message
+git commit -m “Initial commit”
+#Push the changes to the GitHub repo
+git push</code></pre><p id="a5d448ac-0c03-47c1-b50a-62abb318c0a4" class="">
+</p><p id="e1ab7896-4465-4549-b663-f52642044588" class="">OK let’s understand where we are so far and have a look at some of the infrastructure created &gt;</p><p id="4decf004-f63c-4a6a-abe4-fcb4aa92422a" class="">
+</p><p id="e44bf8e5-7231-4c0d-9a24-d4450b1ec0df" class=""><strong>EC2 instances</strong> - Note these instances are deployed in two availability zones, which increases availability (High Availability) and resilience (Fault Tolerance).</p><figure id="e2caea3e-97e9-424f-b5a1-f71ad2b62a3c" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2010.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2010.png"/></a></figure><p id="9a0794af-c561-4ab3-8237-2610178f353c" class="">
+</p><p id="d7c81b0b-4e63-4ffc-83e7-31aaa5f79da0" class=""><strong>EC2 Autoscaling</strong> group </p><figure id="0de67252-da57-4fca-b52a-dee7d0a5899c" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2011.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2011.png"/></a></figure><p id="40cd99a5-0fee-43e5-b100-2f29686c87da" class=""><strong>Application Load Balancer</strong> - OSI Model Layer 7 HTTP / HTTPS traffic. Allows more sophisticated content based routing</p><figure id="f0ee4af0-c421-408a-855c-6be9a5c43d05" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2012.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2012.png"/></a></figure><p id="da81faf3-0ab3-4911-b987-b6d20ef93cf2" class=""><strong>S3</strong> Buckets </p><figure id="f7403c4f-ac83-40b2-b9fd-05e55728e921" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2013.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2013.png"/></a></figure><p id="5edc338e-2dab-4335-af2c-8733d28834e9" class="">
+</p><p id="251d8f9b-58e8-4aac-b3f7-036134aded31" class="">Next up let’s understand our VPC and Networking infrastructure. So looking at the VPC resource map, we can see that we have an Internet Gateway (IGW) connected to our two Public subnets and these two subnets are in two different Availability Zones (AZs) to increase availability for our public facing resources.</p><figure id="c5d6bc6f-27b2-41f3-afce-2e5798aa427e" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2014.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2014.png"/></a></figure><p id="0018669c-8cfc-47cf-9176-e4c9408cc054" class="">
+</p><p id="d93cc9b7-4c38-42b9-8c80-6f120ce834ab" class="">For our Private subnets we can see a NAT Gateway is routed to each of these. </p><figure id="99b5e7df-1fcb-4d13-8e2c-924b0440713b" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2015.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2015.png"/></a></figure><p id="64aad7a3-d1bf-4a5a-b321-8093170cdb6a" class="">
+</p><p id="004abdb8-235b-4386-8730-3012dfdf4262" class="">With regard to the NAT Gateway. Let’s look at what 1 ENI with 1 EIP refers to: </p><p id="24d6339d-cf16-4183-9fb3-005bedf2c0cf" class="">Let&#x27;s break down the terms:</p><ol type="1" id="7f364393-a7ff-4df5-9134-6666648967e7" class="numbered-list" start="1"><li><strong>ENI (Elastic Network Interface):</strong> An Elastic Network Interface is a virtual network interface that you can attach to an Amazon EC2 instance in a Virtual Private Cloud (VPC). In the context of a NAT Gateway, the ENI is essentially the network interface associated with the NAT Gateway.</li></ol><ol type="1" id="6aeaca30-bcf9-4b43-99f6-438fc5e466b0" class="numbered-list" start="2"><li><strong>EIP (Elastic IP):</strong> An Elastic IP address is a static IPv4 address designed for dynamic cloud computing. When you associate an Elastic IP address with an instance or a NAT Gateway in this case, it provides a persistent public IP address that you can use to access your instance or, in the case of a NAT Gateway, to perform outbound communication with the internet.</li></ol><p id="78ee080c-704f-4481-b60c-4d027e00fed5" class="">So, &quot;1 ENI with 1 EIP&quot; means that the NAT Gateway is configured with a single Elastic Network Interface (ENI), and it is associated with one Elastic IP (EIP). This configuration allows the NAT Gateway to have a consistent public IP address (the EIP) for outbound communication to the internet. Instances in the private subnet can route their traffic through the NAT Gateway, which then uses its public IP address to communicate with external services on behalf of those instances.</p><h2 id="d1c9780f-9b1c-4cea-8f9a-3094a7c98da7" class=""><strong>Setup GitHub Secrets</strong></h2><p id="32c2737c-d8eb-40d1-9dc7-c7bc2bfac327" class="">Direct quote from the project setup &gt;</p><blockquote id="c2764a12-38c1-40ab-b9b7-31a32cf0a251" class="">The GitHub Actions workflows must access resources in your AWS account. Here we are using IAM OpenID Connect identity provider and IAM role with IAM policies to access CodeDeploy and Amazon S3 bucket. OIDC lets your GitHub Actions workflows access resources in AWS without needing to store the AWS credentials as long-lived GitHub secrets.</blockquote><p id="dc8c912c-3099-4345-b86f-d572b195a89a" class="">
+</p><figure id="fb404d0e-6e70-475c-bead-236c97e4a990" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2016.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2016.png"/></a></figure><p id="93eb8626-d540-4531-9ec6-8372daf3692a" class="">
+</p><h2 id="4bd050fb-7ab8-4d0e-a574-88d3756c0e7f" class="">Link AWS CodeDeploy to GitHub </h2><p id="c08ce357-6127-4ab1-a3ea-9a37558a9dc1" class="">
+</p><p id="e57addfd-5b47-496e-b04a-b7ea2c32ba07" class="">So we already have a CodeDeploy Application and Deployment Group setup via the CloudFormation template. Select the Application name and then Deployment Group and then Create Deployment. Type in a description for the GitHub Token Name, something that describes it adequately, I chose Connect_to_GitHub and then making sure I was signed out of GitHub I then clicked on Connect and then authorised CodeDeploy to link to my GitHub account. </p><p id="6a9d7813-8299-4d12-b7c8-4d103cb846cc" class="">
+</p><p id="2f080e4c-84a3-4087-91dd-455d5f04f4b6" class=""><code>CodeDeploy Application =CodeDeployAppNameWithASG</code></p><p id="37b8a386-1bc5-490b-b52a-cad880782953" class=""><code>Deployment group = CodeDeployGroupName</code></p><p id="578d56de-eb34-4013-a569-c0c9e20c6204" class="">
+</p><figure id="ca6e9c7a-00a0-41f6-87e9-705a2d1ab63d" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2017.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2017.png"/></a></figure><p id="076d5436-b0ca-4c92-8369-dd3323102f72" class="">
+</p><h2 id="fd88b49a-039d-4671-a08a-672fee9f15d6" class="">Trigger the GitHub Actions Workflow </h2><p id="63eb7460-4d2a-474a-b32b-31c8cda83dc9" class="">
+</p><p id="89101733-1139-4aa3-a7dd-b7d38b2500eb" class="">From the Actions menu in the repository, click on Build and Deploy, Run Workflow dropdown and then click on the green Run Workflow button, after a few minutes there will be a green check by Build and Deploy as shown in the screenshot below</p><p id="4324267a-1e55-49eb-ad89-637c23367508" class="">
+</p><figure id="17b9e356-a0fc-42f2-83f4-6d51dfa12cfd" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2018.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2018.png"/></a></figure><figure id="eacaf2f9-35ab-48d5-acef-e60fad5aa1a5" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2019.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2019.png"/></a></figure><p id="c5dd5515-c6c3-4c86-9e57-027cae3302c7" class="">
+</p><p id="25d1d395-6977-40f7-8b59-7dc2e472c2a9" class="">The Build and Package stage builds the sample SpringBoot application, generates the war file, and then uploads it to the Amazon S3 bucket.</p><figure id="cbd4d5b3-7f4c-4e98-802e-198f2a2af93a" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2020.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2020.png"/></a></figure><h2 id="ed76e32b-db0b-446a-85a2-1f1c9b0d202c" class="">Verify the Deployment in the CodeDeploy console</h2><figure id="c3a72f36-5637-4069-b99c-e3f5468b676e" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2021.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2021.png"/></a></figure><p id="5df78b78-1aa1-40b7-9c13-c589f2395d04" class="">
+</p><p id="3c799253-04fe-4ebe-b565-4406c7d56fdb" class="">Lastly we want to now check our code is deployed. There’s two ways to get the URL the first is from EC2 &gt; Load Balancers. Select the Load Balancer and then click on details and use the DNS name URL. Note you may have to add http:// to the front of this URL for it to function correctly. The second method is to go to CloudFormation and click on the WebappUrl</p><p id="d88f2f21-ef38-4b0a-b712-4c4b34cf1b21" class="">
+</p><figure id="4adb8458-ef65-45b0-b80d-a03f5e4179ca" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2022.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2022.png"/></a></figure><p id="379091b4-db25-47a1-a3f5-a794393a9e3a" class="">
+</p><h2 id="ed9b2f02-8f78-4cdd-a4d7-0976b82fe5cb" class="">SUCCESS! Our Application is Deployed!</h2><figure id="f1320588-7118-4231-bab1-f7bf82aae55f" class="image"><a href="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2023.png"><img style="width:1152px" src="Integrating%20with%20GitHub%20Actions%20%E2%80%93%20CI%20CD%20pipeline%20t%2095f6b7928bd54ea5b0a483b9f626d46b/Untitled%2023.png"/></a></figure><p id="d510da94-9929-485a-8a24-6c1acfd653e9" class="">
+</p><p id="e1354b6a-8fc4-404f-ad25-5b11d4be7214" class="">Don’t forget to cleanup your resources after trying out this demonstration</p><h2 id="b1798b9a-163a-4507-89fd-613e7de18cf5" class="">Clean up</h2><p id="9894c516-ef82-4abc-94a0-482809547a4f" class="">To avoid incurring future changes, you should clean up the resources that you created.</p><ol type="1" id="219206eb-6871-48c6-919a-6e0798bea46e" class="numbered-list" start="1"><li>Empty the Amazon S3 bucket:</li></ol><ol type="1" id="22524745-5e83-4f9a-8251-ce64243d94c1" class="numbered-list" start="2"><li>Delete the CloudFormation stack (CodeDeployStack) from the AWS console.</li></ol><ol type="1" id="ae5d51bc-0093-4804-ba78-c95ece90befa" class="numbered-list" start="3"><li>Delete the GitHub Secret (‘IAMROLE_GITHUB’)<ol type="a" id="299e70e7-17e1-4b54-91ba-672b532b0bff" class="numbered-list" start="1"><li>Go to the repository settings on GitHub Page.</li></ol><ol type="a" id="7949e8dc-fe88-4f71-9149-efd7e6ba1bce" class="numbered-list" start="2"><li>Select Secrets under Actions.</li></ol><ol type="a" id="9c813717-1abb-47a0-a5ae-36933686a94a" class="numbered-list" start="3"><li>Select IAMROLE_GITHUB, and delete it.</li></ol></li></ol><h2 id="0e2c171e-3641-4482-aa60-eb0e5d311fc9" class="">Summary</h2><p id="6fc9d503-6fa6-4dc3-8934-da956cd207d9" class="">This shows the power of resource allocation via a CloudFormation template, in many ways this indicates the power of Cloud computing in its agility to rapidly create a working infrastructure in mere minutes. Something that would be pretty much impossible in an on premises data centre. Once the architecture is designed for our workload we can rapidly automate provision of resources. The compute, networking, S3 Buckets, Load Balancer, </p><p id="a5dc2bec-ff03-44fa-a6c8-35f8fee8cf51" class="">
+</p><p id="ac625318-088e-4095-a739-ff38e6862e11" class="">What else could we do with this project? That depends if we decide to keep the architecture as it is or change it. So for example if the current architecture works for us and we’re happy with it. We could look at automated backups for our code as it has been pushed to AWS. It is held on GitHub and in an S3 Bucket but we could use AWS Backup to automate backups for further protection of our code resources.</p><p id="9ba6bdef-c095-4495-9abe-36b5793e7a78" class="">
+</p><p id="9d1567c7-2d0e-49db-a5a6-41fd7af836d9" class=""><strong>Using AWS Backup for Amazon S3</strong></p><p id="9986baa3-7255-4b20-bf1b-f25476484419" class=""><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/backup-for-s3.html">https://docs.aws.amazon.com/AmazonS3/latest/userguide/backup-for-s3.html</a></p><p id="f0c2ef50-e893-4410-bfe1-a23caafb255b" class="">
+</p><p id="25dea0f0-c9dc-49ec-b5cc-dfe041c3742b" class="">Maybe we prefer a serverless architecture instead of using EC2 instances. So we could look to AWS Amplify to deploy our website as an alternative solution. </p><p id="644d860d-28da-4b88-ab3d-644fa8953598" class="">
+</p><p id="b82b5be7-adfa-442a-965b-5cf13cdd432f" class=""><strong>Complete guide to full-stack CI/CD workflows with AWS Amplify</strong></p><p id="3ec50e60-e7cb-4792-9f72-fa76a32de261" class=""><a href="https://aws.amazon.com/blogs/mobile/complete-guide-to-full-stack-ci-cd-workflows-with-aws-amplify/">https://aws.amazon.com/blogs/mobile/complete-guide-to-full-stack-ci-cd-workflows-with-aws-amplify/</a></p><p id="c5eaaa2a-fc53-4159-9844-ef5bed598e5e" class="">
+</p><p id="e12278f3-37a5-4c16-a61c-89a92a9e8415" class="">The decision here is how much configuration we require. If we require detailed self management then employing the solution in this project is very effective. Otherwise we can look at solving hosting our website with AWS Amplify instead as it offers a fully managed CI/CD and hosting service so that we have a zero-config deployment. </p><p id="e1c6bf29-6cd1-493d-8c1f-8d4bfb4403f5" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
