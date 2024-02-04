@@ -1,0 +1,839 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Project 2</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	/* white-space: pre-wrap; */
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 0.7vh;
+	margin-bottom: 3em;
+	border-radius: 1em;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+
+#header {
+	padding: 8em 0 0.1em 0;
+	height: 200px;
+}
+
+#header .logo {
+  display: block;
+  border-bottom: 0;
+  color: inherit;
+  font-weight: 900;
+  letter-spacing: 0.35em;
+  margin: 0 auto;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+
+#header .logo .symbol img {
+  display: inline-block;
+	vertical-align: middle;
+	padding-right: 20px;
+  height: 2em;
+}
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="163c98d1-429c-412f-b58c-be826cbbea6c" class="page sans"><header id="header">
+	<div id="inner">
+		<!-- Logo -->
+		<a href="index.html" class="logo">
+			<span class="symbol"><img src="images/logo.svg" <span class="title">HOME</span>
+		</a>
+	</div>
+</header>
+	<h1 class="page-title">Project 2</h1><p class="page-description"></p><div class="page-body"><h2 id="09272abd-a510-4008-9fbd-19cb5809a623" class=""><strong>Build a Full-Stack React Application</strong></h2><p id="36ef9278-46a3-453a-9a9e-f8b55be1ff9e" class="">
+</p><h3 id="8c986a89-96de-4578-b2b1-b50af1e106d5" class="">Project Objectives </h3><p id="8ae47ec3-b02f-469b-a2ef-9412b56dc4a6" class="">To host a simple full-stack web application using AWS Amplify, utilise the Amplify CLI, deploy a GraphQL API and Database, lastly setup S3 storage solution for the project.</p><p id="b78ce5cf-b381-49c5-810f-709f1d666470" class="">
+</p><p id="d542a16d-d7d8-4713-8348-9dc55f464910" class="">The following article is based on the following AWS Tutorial &gt;</p><p id="8eeb5d46-18a7-4fd5-8071-efc9ac126a7b" class=""><a href="https://aws.amazon.com/getting-started/hands-on/build-react-app-amplify-graphql/">https://aws.amazon.com/getting-started/hands-on/build-react-app-amplify-graphql/</a></p><p id="b6c67dac-dd60-4ee3-9b44-69c77c18ea70" class="">
+</p><p id="8990ca59-4225-4f07-aff7-5df592a898f0" class="">This is my interpretation of the tutorial and in this project I will manually go through all the steps and provide additional information where applicable. Also <strong>troubleshoot</strong> and describe any issues and potential issues. </p><p id="bd6ed10a-3759-4400-816c-223c9c7bc7bd" class="">
+</p><h3 id="35c95d28-7f12-4c0d-9fb6-0fb0b901d701" class="">Prerequisites</h3><p id="60ff8996-31d7-4795-981c-941293dd12ae" class="">AWS Account with Admin access</p><p id="5ba80adc-96e3-4d85-ac85-1e21e5124bfa" class="">Node.js v10.x or later </p><p id="b2c04857-a893-4db1-abc0-473029ee693c" class="">GitHub account</p><p id="f42b284d-0e55-4762-8300-c17282236be6" class="">Git version control application</p><p id="0930244a-efd6-44ef-b79e-643d43e4f107" class="">
+</p><h3 id="09a8377a-2293-4000-acc8-9f01e0c5c370" class="">Create React environment</h3><p id="0e5795d7-b10d-44d5-9277-6555d29947e0" class="">Our first task is to create our react app environment as well as give our app a name. So we do this with the following command </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="74abac04-bade-441d-8dc3-a7c2b13c34b1" class="code"><code class="language-Bash">$ npx create-react-app amplifyapp</code></pre><p id="7d1bc177-ef2e-4f0a-a942-65fcd132e149" class="">
+</p><p id="2a34aecd-614f-49a8-8024-50662c44f101" class="">npx is Node Package Execute, this is running a packaged called called create-react-app without installing this package globally on our system. This packages contains a set of scripts and configurations to create a new React project development environment, then we have the name of our app which is amplifyapp. After running this command you may get an npm (Node Package Manager) notice, the example shown below is telling me about a new version of npm. So I decided to update npm by running the suggested command, this is optional.</p><p id="9b6da940-be7e-4308-8cee-29c73ed577a0" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ebbdab33-9eef-412e-9c99-679f058a7bc5" class="code"><code class="language-Bash">Creating a new React app in /home/phil/amplifyapp.
+
+npm notice New minor version of npm available! 10.2.4 -&gt; 10.4.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v10.4.0
+npm notice Run npm install -g npm@10.4.0 to update!
+
+Once the update is optional update is complete the version can be checked with the
+following command 
+
+$ npm -v
+10.4.0
+
+We can move in to the new amplifyapp folder and list the folder
+contents
+
+$ cd amplifyapp/
+xxxx@pop-os:~/amplifyapp$ ls
+node_modules  package.json  package-lock.json  public  README.md  src</code></pre><p id="91ceef8c-1046-4c1d-ac4c-70f55d98ae01" class="">
+</p><h3 id="00ae2de1-49d6-4db7-891e-119e0b8a057e" class="">Setup GitHub repository and push changes</h3><p id="c37b411a-37da-4a99-8e3c-67ff36311d6b" class="">Now we have our React app environment setup we need to create a GitHub repository. On GitHub create a new repository called amplify-react-graphql. Select the repository and you’ll see under Quick Setup HTTP | SSH clicking on these will give you either HTTPS URL or a link to authenticate with SSH. So depending how you have Git authenticated with GitHub you will select one of these two options. As I am using SSH via a generated token and that token added to my GitHub account I will go ahead and copy the SSH command which in my case is <a href="mailto:git@github.com">git@github.com</a>:SuperNolvas/amplify-react-graphql.git</p><p id="b1156a46-1b3b-4159-8c76-623f3171554a" class="">
+</p><p id="8d9fb88a-6818-46e2-8c17-d178e6ba253b" class="">Let’s go back to our terminal and inside the amplifyapp directory initialise, stage changes to the contents of this folder, setup our first commit and then push the commit to our GitHub repo</p><p id="e41f4354-a424-438b-93a0-41208541ee3d" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b90c10bc-baca-4700-86b0-09341c204983" class="code"><code class="language-Bash">$ git init #Initialise directory as Git repository
+$ git add . #Add modified and new files in the current directory to the staging area
+$ git commit -m &quot;initial commit&quot; #Save changes added to the staging area ready to be pushed to remote repo
+
+$ git remote add origin git@github.com:username/reponame.git #Associate remote repo with local Git repo
+$ git branch -M main #Set branch name to main
+$ git push -u origin main #Push changes to remote repo on main branch
+
+Troubleshooting Git
+
+$ git status #helpful to see which changes are to be committed or if any have been staged
+$ git branch #Shows current branch, if it doesn&#x27;t display anything then make sure you have a commit setup
+</code></pre><p id="c90a1283-1476-4239-99e2-f177b0089150" class="">
+</p><p id="35dc6777-608b-4ed4-a9f3-829e482d9f22" class="">Once the push operation is successful, go to your GitHub repository and check to see if the files have been changed/uploaded to GitHub.</p><p id="59f602ae-f0c2-4533-8478-45cb4473e036" class="">
+</p><h3 id="0994935b-cc02-4523-9fa3-7f34f39d46b5" class="">Deploy the Amplify App</h3><p id="030f7be6-f0b5-4592-bb62-d89310ee70d6" class="">Next to deploy the amplifyapp, login to AWS Console, go to Amplify service scroll down and under Amplify Hosting click get started, then select GitHub, then a new page will open asking to authorise with your GitHub account. Check the GitHub identity is the correct one and select Authorise AWS Amplify</p><p id="3cead137-f6ca-44ff-9492-dce90ba43c94" class="">
+</p><figure id="0a617899-de19-4e0a-8bb7-6f04be65ccc4" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled.png"><img style="width:760px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled.png"/></a></figure><p id="3c620780-2857-4e5d-994b-e2753f3cc3e8" class="">
+</p><p id="14d4b753-4989-4e7e-b579-ca3e1aad1387" class="">Note the region here is eu-west-2, if the region isn’t correct then go back to Amplify homepage in AWS console and change region. On the next screen you can choose to let Amplify access all repositories or a selected repository. Make your choice and then once authorised you can select the correct repository in Amplify dashboard and the branch you wish to use.</p><p id="9b0203f3-b65f-4c89-a9ea-0e0f55e61c3e" class="">
+</p><figure id="cff50ab2-efb0-424c-b92e-1022249ee92d" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%201.png"><img style="width:1138px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%201.png"/></a></figure><p id="fe696b68-3724-49b3-8cd6-5a66579ccee5" class="">
+</p><p id="cde74098-0bb9-4ea3-9487-ab765da150f2" class="">Review app name and build settings, I used the default selections here. Then you will get a review of the repository details and app settings, check these are correct and then select Save and Deploy.</p><p id="cffec291-61e2-4830-84f5-28243b29f5fe" class="">
+</p><p id="389d2eb1-dc44-4438-a4d1-b158769feec9" class="">Let the app build wait time is a few minutes. Once Provision/Build/Deploy are ticked green then click on the thumbnail or URL on the left hand side of the page to open up the web app.</p><p id="7e806434-878d-4a26-85fe-fac46a154e50" class="">
+</p><figure id="2a807483-8ee3-4e09-9e7a-87e9f6eec305" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%202.png"><img style="width:1623px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%202.png"/></a></figure><p id="e59b823d-5cdf-4725-ab06-bae51059ae37" class="">
+</p><h3 id="83218975-cc1c-475a-9455-d5188c0ebf9d" class="">Edit Javascript code to make changes to our app</h3><p id="0d0eace7-4cb2-4d49-ac7e-34bdb50ab732" class="">Next we will go to our local git folder and make some code changes and push them to GitHub, then check our web app page to see if the code changes have updated our site. </p><p id="ebfcb1a3-1159-4d55-8170-03bfcf50e7bd" class="">
+</p><p id="a451b37c-7dd5-49a5-a413-86d5dc8663be" class="">As I have VSCode installed. I can go ahead and open up VSCode from the terminal by navigating to the amplifyapp folder and running VSCode from the terminal opening up all the files in the current folder</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="165613c4-b221-4db8-82ef-2991b9995a53" class="code"><code class="language-Bash">$ cd amplifyapp
+phil@pop-os:~/amplifyapp$ code .</code></pre><p id="ea121546-7be5-4f16-801e-30f4c5000c0c" class="">
+</p><p id="267c3e2d-8f5f-41ce-940c-bee0a12fb95b" class="">This will allow editing of the code and pushing back to GitHub via VSCode. </p><figure id="8011cf65-e9ca-4e97-a3a6-879ecb7a13f8" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%203.png"><img style="width:776px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%203.png"/></a></figure><p id="5f154b30-d061-4484-84b7-658875defe4d" class="">
+</p><p id="d0611ccd-355a-457e-b9df-59fb06ed20a3" class="">Amplify will pick up the pushed changes to the GitHub repository and rebuild the app. Give this a few minutes and then open up the app and it should show the pushed changes were successful by showing the updated app</p><p id="34a65e99-4019-42bf-943b-5aa3b804d8a1" class="">
+</p><figure id="7eac3cbc-0419-4fed-8681-7def69e70336" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%204.png"><img style="width:902px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%204.png"/></a></figure><p id="c7a4b969-c5d4-4737-8dbf-71860d60da7f" class="">
+</p><p id="faf7cdd1-1a1e-4e32-93bc-089f6c1fc027" class="">Note using VSCode deviates from the tutorial, if you aren’t ready or don’t wish to use VSCode then you can edit from the terminal with vi, vim. nano whichever editor you have installed or edit the app.js file from your desktop GUI. Then follow the tutorial and use the git add . git commit, git push commands as usual. </p><p id="9398c0af-7f5f-4372-930f-b9775877dcc1" class="">
+</p><p id="e620d2dd-ddae-4d09-b6e2-cac5933beca1" class="">OK so a review of what’s happened so far. We created a reactapp locally on our system, we linked this working folder to a repository we made on GitHub. We linked AWS Amplify to our GitHub, checked our initial code was working, revised the code and pushed it back to GitHub and then Amplify rebuilt the app and hosted it. So we have a React app hosted in AWS Cloud utilising a fairly simple process. </p><p id="adfece3d-c098-42d2-b458-818f2ec627cd" class="">
+</p><h3 id="f925e704-6124-46f0-872b-96b5817c4474" class="">Install Amplify CLI</h3><p id="16661b8c-e633-45df-9f80-6ac573828f56" class="">Next up we will install and configure the Amplify CLI which will leverage continuous deployment to further automate the build and deployment process of our React app and also integrate with various AWS services such as authentication and APIs which we are going to use to setup the GraphQL API. Amplify CLI commands will allow us to achieve these goals. </p><p id="c95a49f7-d9f8-444d-acf8-48cf4c55c5b3" class="">
+</p><p id="fbdfef43-7239-4ee0-9ad2-3170778135d0" class="">Install the Amplify CLI</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3600eaea-aa4d-4428-9ce9-a999b80bce28" class="code"><code class="language-Bash">$ xxxx@pop-os:~$ sudo npm install -g @aws-amplify/cli
+
+added 33 packages in 2m</code></pre><p id="6141b3c0-52d4-4037-86b1-f7e295f9467a" class="">
+</p><h3 id="dff44539-ee60-467e-a214-e75a98a4b540" class="">Configure Amplify CLI</h3><p id="4d6f0c3a-84ae-461a-b2ea-9a4460b496a8" class="">run aws configure from the command line, login to your AWS account and select the region where Amplify was setup for our app, in this case it is eu-west-2</p><figure id="ca32838f-c10c-4267-ad94-d97044791c8a" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%205.png"><img style="width:588px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%205.png"/></a></figure><p id="d6b87eb6-d7a1-4249-affe-af55b68f22bf" class="">
+</p><p id="8550773f-a7cc-4f78-bdab-2304ba055c66" class="">Enter amplify username, and attach AdministratorAccess-Amplify policy to the user</p><figure id="77c5ae45-f35b-4f71-aa49-90d290a86ddd" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%206.png"><img style="width:408px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%206.png"/></a></figure><p id="eff674f3-f425-4dc3-aa3b-f85cb47fb22c" class="">Next click on create access key and then press enter in the terminal and copy the access key and secret to authorise Amplify CLI with your AWS Account. Full details of the process are linked here &gt;</p><p id="8ab50da5-b87e-47f4-9034-197bb969947e" class=""><a href="https://docs.amplify.aws/javascript/tools/cli/start/set-up-cli/#configure-the-amplify-cli">https://docs.amplify.aws/javascript/tools/cli/start/set-up-cli/#configure-the-amplify-cli</a></p><p id="36844c64-747d-48f6-90dc-d442014b6f7f" class="">
+</p><p id="e6f092fc-1dae-47a1-8d45-d0caff987783" class="">Go your Amplify project in the Amplify dashboard and select Backend environments. Enable Amplify Studio, then copy the command from Local Setup Instructions and run this </p><p id="5e9f6cca-8dd9-403f-a040-07fb901c5ba0" class="">
+</p><figure id="f67cf5a8-aa6d-45c2-bcd7-ca1be81b32d0" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%207.png"><img style="width:1120px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%207.png"/></a></figure><p id="2fdaab44-62d3-45c6-a237-57417794fde5" class="">
+</p><h3 id="ef0b1b5a-ff95-47c2-9d80-79900fbf9d9e" class="">Troubleshooting Error with Backend</h3><p id="31e5d152-68ec-4a67-830c-f3ded7df7f55" class="">This failed with an error “Failed to pull the backend” I resolved this by running the amplify pull command as shown in the above screenshot again but this type from within the amplifyapp directory. How I discovered this was by running the above command in debug mode and then from the output I saw that no such file or directory /home/phil/.steampath was showing, so this was a big clue I was in the wrong directory. </p><p id="1e07f400-0df0-4e1d-8ef1-91437c04fb93" class="">
+</p><p id="8ce65bfa-38fe-4a5c-820e-bcfa465b4bda" class="">Error “Failed to pull the backend” run amplify pull with the  - - debug flag and analyze the output</p><figure id="05f9365f-67df-4e04-a8cb-40beadea96a6" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%208.png"><img style="width:917px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%208.png"/></a></figure><p id="02945942-f110-45b4-8c7f-2909520f0f1b" class="">
+</p><p id="f386ede1-e802-478c-a676-466c4cfc4080" class="">To resolve the error, move in to the amplifyapp directory and run the amplify pull command again</p><p id="5c7b8c10-ddd8-4e59-80ac-635597eb574f" class="">
+</p><figure id="7aba13fe-48f1-4cbd-b9a6-d5651e66b614" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%209.png"><img style="width:1405px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%209.png"/></a></figure><p id="85e0f8e8-05c7-4792-9929-91cb7bc65602" class="">
+</p><p id="dda83978-926f-4320-b058-e82bd1a76c05" class="">Lets check the amplify console command can open Amplify Studio  </p><p id="ff533593-4d68-4b51-b301-b311d13af5a7" class="">
+</p><figure id="3bb8995a-f6ce-43bb-b1dc-84b2444a1f82" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2010.png"><img style="width:917px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2010.png"/></a></figure><p id="8ce94e70-8769-4629-84a5-7469bdd3cf96" class="">Amplify Studio opens </p><figure id="f97275fc-4a6c-4f88-b09d-f652d4f34de3" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2011.png"><img style="width:1190px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2011.png"/></a></figure><p id="3b643d79-33f5-4dba-aa9e-4514fc372a94" class="">
+</p><p id="5a63bc88-6149-482a-8690-69e2281a9afb" class="">OK so it wasn’t plain sailing with this setup but it was useful to utilise the Amplify CLI - - debug flag to assist with the error troubleshooting process and it was simple fix. So to review the process so far, we have the Amplify project initialised and the Amplify Studio visual interface setup also complete. </p><p id="3775d744-4eb9-47ad-8d4a-5f5e35ee3c7f" class="">
+</p><h3 id="083fb89a-19d7-442e-bb54-aa619323786b" class="">Setup AWS Amplify libraries and Amazon Cognito authentication</h3><p id="6428ebe0-d7ee-4f03-bd11-ff062f154cb3" class="">Next we need aws-amplify library for client-side APIs so our code can interact with AWS services and we also need some framework UI components. To install these &gt;</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="cfb538e8-b64f-4d72-bd5f-b52630d68986" class="code"><code class="language-Bash">sudo npm install aws-amplify @aws-amplify/ui-react</code></pre><p id="083f1c82-bfd2-4e8b-b260-03438cf0be00" class="">
+</p><p id="191ff00f-8978-4b72-aa5a-f4c13dca083b" class="">We want to setup authentication for our app using Amazon Cognito, run the command amplify add auth. (make sure you are in the project directory when running this command). This is staged locally</p><figure id="fda26da7-1203-4fde-8d23-86e947580ffd" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2012.png"><img style="width:894px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2012.png"/></a></figure><p id="04e5e78a-44bf-4c97-acd9-047b5f40e017" class="">Now we need to deploy the authentication service to do this use amplify push - - y</p><figure id="e5542a80-200d-4079-b8ed-0770527e2c1b" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2013.png"><img style="width:1329px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2013.png"/></a></figure><p id="f9f3682b-85ef-443f-b00f-a8cab617e1ca" class="">Open code editor and add the following code to src/index.js below the last import statement in the file to configure the React project with Amplify resources</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fbbf9610-7ed7-4085-9dd0-488fb8b4cd45" class="code"><code class="language-Bash">import { Amplify } from &#x27;aws-amplify&#x27;;
+import config from &#x27;./aws-exports&#x27;;
+Amplify.configure(config);</code></pre><figure id="f67a0377-6717-4ab7-bd6d-75d9d51c5a3a" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2014.png"><img style="width:759px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2014.png"/></a></figure><p id="e5dd0b61-a171-4348-9ab3-8e3ffd10c71a" class="">Add the authentication flow in app.js by replacing with the code below </p><figure id="ac80acce-a1a4-4447-86ee-7f821b482111" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2015.png"><img style="width:755px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2015.png"/></a></figure><p id="95780e4f-838a-45e1-ba43-83efe08c71bb" class="">The withAuthenticator component will create an entire user authentication flow, so users can sign up, sign in, reset their password and setup multi factor authentication (MFA).</p><p id="b6586aa7-8e93-4400-bf76-7aba0b02383b" class="">
+</p><h3 id="0c19fc50-db6a-4ae5-8cea-6373a0374590" class="">Test the application authentication</h3><p id="aeae973a-2e73-425d-9d59-5fe82dccfcb8" class="">Run npm start to launch the app locally to test it </p><p id="1edf842e-97a8-428c-a7da-9286678e3202" class="">
+</p><figure id="f4e22866-75f1-4d81-91c8-4a35f10028ab" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2016.png"><img style="width:905px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2016.png"/></a></figure><p id="644adb4c-2dda-4a85-b3db-7eaafb8f1d86" class="">Create an account, test and then Sign Out</p><figure id="7b302974-965a-469f-8e07-3205b7b27d6a" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2017.png"><img style="width:905px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2017.png"/></a></figure><p id="133720a1-d80d-4d08-9f8a-107e251ee2b6" class="">
+</p><h3 id="e9439d97-533d-4b74-acc4-447d7fd3dcbc" class="">Setup AWS Amplify Backend </h3><p id="197ec063-2580-43fa-9602-aa8ed3937bbb" class="">Next, we need to configure the Amplify build process to add the backend as part of the continuous deployment workflow. From your terminal window run:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d65b20d9-8e9f-416a-8db5-8a875034f451" class="code"><code class="language-Bash">amplify console</code></pre><p id="41cffc3e-c971-4141-a17c-08ae93cfdbae" class="">and select AWS Console</p><p id="c6a16ee1-d517-42d3-91c1-8daa71de6207" class="">From the side menu go to App settings &gt; Build Settings and edit the amplify.yml adding in lines 2-7 shown in the code edit below, make sure you add the lines and do not over write them.</p><figure id="055ccf95-214c-4be2-ba67-f4f33e38fc00" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2018.png"><img style="width:886px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2018.png"/></a></figure><p id="d71e2f1c-7f5f-4c86-841c-ee3c3fc64cc7" class="">Edit build image settings &gt;</p><figure id="05f92b62-9f9b-429f-8693-67f7808187d0" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2019.png"><img style="width:886px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2019.png"/></a></figure><p id="83c40912-0cea-4fe3-9de8-106011d03936" class="">
+</p><p id="15e0f6c5-4a83-470e-85b3-3efa6cd8f4de" class="">Update the frontend to point to the backend environment that was just created</p><figure id="a6e9b7c6-391b-4263-9fc6-f1b4d3bf2dbe" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2020.png"><img style="width:905px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2020.png"/></a></figure><p id="10e9e783-a4e0-4af6-b467-e59226eaf850" class="">
+</p><h3 id="0f05b3fc-32ec-46c8-b721-1c30434d1058" class="">Setup Amplify Role in IAM </h3><p id="337ffb27-954d-4247-830b-57d71b651dd2" class="">Now we have a warning, we need to setup a service role so that Amplify can deploy updates to the backend environment</p><p id="7faf7e51-de3e-4b40-a946-27650fe25ae9" class=""><a href="https://docs.aws.amazon.com/amplify/latest/userguide/how-to-service-role-amplify-console.html">https://docs.aws.amazon.com/amplify/latest/userguide/how-to-service-role-amplify-console.html</a></p><p id="ca95f002-0379-4966-882b-1636ff1f3680" class="">
+</p><p id="13033a4b-443b-4b31-86db-718639ca7c27" class="">After following this guide you should have a new Role called <strong>AmplifyConsoleServiceRole-AmplifyRole</strong>. setup in IAM</p><figure id="a0bff144-fffd-47e6-b695-f4018f1d0bf7" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2021.png"><img style="width:989px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2021.png"/></a></figure><p id="595a1659-01df-4b1d-a5ce-54a191706ac8" class="">
+</p><p id="9fc4de82-978a-426c-a326-237cb5476b24" class="">Add the newly created service role in AWS Amplify console General settings</p><figure id="74a23412-1a11-4246-b340-b1ba09cd7dc8" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2022.png"><img style="width:938px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2022.png"/></a></figure><p id="bb2e0161-2ef6-4d18-9f50-a42b4b1e1e15" class="">The Amplify console now has permissions to deploy backend resources.</p><p id="89739489-beef-43c0-a4da-2f7fb9081ef6" class="">
+</p><p id="1dacd7c0-2d60-43d5-ba46-3c12f2000813" class="">Push changes to git either via VSCode, other code editor or via the usual git add, commit, push commands.</p><p id="eec9e1f3-643b-421e-b973-9f4731d00580" class="">
+</p><p id="0a6d0501-c8fe-48a0-b13b-81b21c94d5b9" class="">So in review of this section we have use authentication setup in our app via AWS </p><p id="1548199f-32be-461f-9937-2a97cd54fda7" class="">Amplify/AWS Cognito and we have backend deployment authorised with AWS Amplify</p><p id="3ebf069f-12e6-42b0-966c-1e613b0b8349" class="">
+</p><p id="9982746f-caf5-4da1-8f8f-89dea10f875a" class="">Now it is time to setup GraphQL API that uses AWS AppSync and deploy front end code that will deploy a Notes app.</p><p id="9dc6c076-62af-4fb7-8d53-d30f81e347cf" class="">
+</p><h3 id="77d6e31e-af60-4ea6-9f61-986f045bad7a" class="">Add Amplify GraphQL API</h3><p id="2dcf67f6-c6a5-42bc-adfa-24b7122911e0" class="">From within the amplifyapp directory run the following command </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c20897fc-0295-47d6-8278-006ab13d6e1d" class="code"><code class="language-Bash">amplify add api</code></pre><p id="306635e4-7493-4095-a8ca-88911fef7f3b" class="">Update the Schema and save the file</p><figure id="a083db7c-f6eb-4d0b-b07f-a65f2d80ac53" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2023.png"><img style="width:892px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2023.png"/></a></figure><h3 id="892ad8fc-9c88-4f55-9b99-72b7614ee69b" class="">Deploy the API - Push the locally configured API to deploy it</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f64504b4-3bf3-45fa-b38d-9d86b3eaef98" class="code"><code class="language-Bash">amplify push --y</code></pre><p id="82e09bc4-efd6-4e87-8726-d81b5bacefa3" class="">This will do three things:</p><ol type="1" id="5a489bbd-517a-4bc3-bbb4-1c49f05d10af" class="numbered-list" start="1"><li>Create the AWS AppSync API</li></ol><ol type="1" id="a1e59337-d802-42a7-af95-0e735de73260" class="numbered-list" start="2"><li>Create a DynamoDB table</li></ol><ol type="1" id="f58db422-1fc2-4cdb-9fa1-e8e6744e2560" class="numbered-list" start="3"><li>Create the local GraphQL operations in a folder located at src/graphql that you can use to query the API</li></ol><p id="faa7ddda-f1dd-4782-a425-ef9e84eb720d" class="">
+</p><p id="bf4d92a5-a79c-4089-b913-c356d8b4a748" class="">We can now view the GraphQL API in our AWS account</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fa38d194-0745-498b-a29a-1062b23b35e8" class="code"><code class="language-Bash">amplify console api
+
+&gt;Choose GraphLQ</code></pre><figure id="71503d13-d4c0-4de0-8ef1-2b42360fffd4" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2024.png"><img style="width:1069px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2024.png"/></a></figure><p id="f57fce43-ae61-4216-b3c2-9047cf2ad589" class="">OK next we need to edit the app.js code to add notes functionality to our app</p><p id="60f81ef4-dc5d-45ee-aec9-7c6cffc4abeb" class="">
+</p><h3 id="061b2d21-11d3-47a3-9ea6-6949ec9f72b8" class="">Troubleshoot problems with the Javascript code</h3><p id="27aeb60c-da5c-4015-9763-69e4f972742d" class="">Right it appears this code is out of date and has issues with the API </p><figure id="a67a75f9-d5b9-411c-9571-471778453752" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2025.png"><img style="width:532px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2025.png"/></a></figure><p id="4c8db4ae-ac81-4b36-9160-bcbc55d22102" class="">
+</p><p id="5c741e02-54ce-446b-8e90-21b35c04bc3a" class="">A working solution was posted on the following site &gt;</p><p id="ddf25748-a047-43cf-a17f-f4ecb1e385e5" class=""><a href="https://github.com/aws-amplify/amplify-js/issues/12635">https://github.com/aws-amplify/amplify-js/issues/12635</a></p><p id="6f2d2e4b-884b-47f6-a300-9412ab13024e" class="">
+</p><h3 id="d3d1b451-f656-4011-a538-8fa4c9e7c590" class="">Test Notes App functions correctly</h3><p id="116d3313-bd53-4e61-953f-a2591cd2598f" class="">Replacing the code suggested by the tutorial for the revised code, now allows the Notes App to function correctly!</p><figure id="e28d6f24-8d53-4268-88e4-6d168c43aacc" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2026.png"><img style="width:532px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2026.png"/></a></figure><p id="c5e66f7b-4d6d-4dfc-8ff5-1452d314d78e" class="">
+</p><p id="9729ce59-2cae-43bf-a266-3d0439c5edd8" class="">So we have a working Notes app that we can create user sign it to access the notes, we have a working GraphQL API and have create,read and delete functionality in our app. The tutorial hasn’t suggested to push the changes but we can do that and test it. Sure enough the app works hosted by Amplify, and we’re able to create a </p><figure id="d9bb2ba0-dbea-4b73-9831-c5fd477dc342" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2027.png"><img style="width:1411px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2027.png"/></a></figure><p id="e8631827-978a-448c-912d-e562fc648e15" class="">
+</p><h3 id="d5d33ffa-303b-421b-a77a-784843e9c31c" class="">Create Amplify S3 Storage</h3><p id="a015a25b-0e98-43c3-9906-4b9054ead466" class="">Create the storage service, when asked What kind of access do you want for Authenticated users? Use CTRL + A to select all then you’ll have create/delete. read. update selected</p><figure id="a405f8ad-8114-4266-810a-49a6685fb59c" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2028.png"><img style="width:1474px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2028.png"/></a></figure><p id="3fc98f9a-a067-44bf-aa6a-190f376f10e1" class="">
+</p><p id="b74bcb6a-e09c-48cd-a93c-5640ddeb58e5" class="">Add image: String to <strong>amplify/backend/api/notesapp/schema.graphql</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="074142e0-6982-4a8c-8a98-2ceb8f59f6be" class="code"><code class="language-Bash">type Note @model @auth(rules: [ { allow: public } ] ){
+  id: ID!
+  name: String!
+  description: String
+  image: String
+}</code></pre><p id="758f7624-c554-4341-9b15-c5249f9204dc" class="">Deploy storage service and API updates </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f6830971-74f6-4194-8699-8a58add05243" class="code"><code class="language-Bash">amplify push --y</code></pre><p id="088fd65e-da93-4cbe-a485-0d9c1d96f60a" class="">Add Storage class and image component to Amplify imports in src/app.js</p><figure id="7806ce99-5734-4405-851d-38ba4bb0cd3a" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2029.png"><img style="width:626px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2029.png"/></a></figure><p id="2ccbec27-1ee1-42cd-b737-422bf4f758f1" class="">Also edit the code for createNote function, deleteNote function and add the additional input to the form in the return block. </p><p id="402e7ecc-ba16-481c-93b8-2e54c95740db" class="">Refer to <a href="https://github.com/aws-amplify/amplify-js/issues/12635">https://github.com/aws-amplify/amplify-js/issues/12635</a> for updated code to fix the API issue mentioned earlier, there is additional code that updates the API calls so they are correct for the new code which updates/adds functions to the code.</p><p id="93f950b1-6b6b-4970-86b1-9bbe4e34d4a0" class="">
+</p><p id="6a9639d3-a23f-4b3d-95e8-a04d766f5b62" class="">Push the changes to GitHub via VSCode, or via terminal git commands as described earlier. </p><p id="4f6525b3-9281-4c14-9c3e-f47280974d45" class="">
+</p><h3 id="58f06e28-e863-4f9e-93fc-3b9f37bc75e3" class="">Success! Our Notes app now has image upload capability and storage on Amazon S3 Bucket for the images. </h3><p id="28524dc1-6930-4903-a0b5-6124eed46347" class="">
+</p><p id="3b47ee09-c5d2-4192-aaa5-278612dc123a" class="">Local test of the app via &gt; npm start</p><figure id="7b4b5738-a1ea-4396-8576-7c0e3e95fa89" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2030.png"><img style="width:1316px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2030.png"/></a></figure><p id="6afdf3e6-0768-4f24-8ae9-1fbc19e84dfb" class="">
+</p><p id="61f6bd7e-a837-4b4f-8326-b590d426f558" class="">Pushed changes to GitHub and Amplify is hosting the revised application</p><figure id="a51c2b3d-4d4c-4efb-9350-6784ec405630" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2031.png"><img style="width:1452px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2031.png"/></a></figure><p id="f0d385d8-b181-470a-b153-bceb78eca613" class="">
+</p><h3 id="cc3509d7-e5f5-400a-ab6a-5486282870a7" class="">Cleanup Resources</h3><p id="dd392f4e-e723-42bf-9e0e-d2ee4a9e7766" class="">Lastly we need to delete the resources we created. </p><figure id="6c40b910-48d8-4106-8a5d-ef0706dffdd0" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2032.png"><img style="width:715px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2032.png"/></a></figure><p id="aa6a8397-a5f1-4c03-ab2e-5de37fc25c2f" class="">
+</p><p id="11356dee-252c-45c7-9cdd-565407b756eb" class="">Push changes with amplify push and lastly run amplify delete</p><figure id="de553bc7-66c1-4a8b-8c37-3f1628378adf" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2033.png"><img style="width:785px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2033.png"/></a></figure><p id="7a20a5d4-937a-46df-9f73-0b8c815f24f0" class="">
+</p><p id="6c3c6e76-16ee-4ce8-b958-432a18b17d6c" class="">Once these commands have completed we’ll now audit the resource usage in our AWS account to make sure that resources have been cleaned up and manually remove any where applicable. </p><p id="ce75af88-5e52-4a36-9d3d-e7531abf6f0c" class="">We can delete the Amplify role we made and any Amplify IAM Users we created</p><figure id="0cdbc8c8-9bc8-491f-bd1f-5548d0d315c2" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2034.png"><img style="width:1408px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2034.png"/></a></figure><figure id="3e399dce-b185-4c0d-9702-9f8848c38137" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2035.png"><img style="width:667px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2035.png"/></a></figure><p id="3706ae75-3221-4b5e-aae8-e4c2925bad88" class="">In AWS Cognito delete Amplify backend manager</p><figure id="573ee3db-9a4d-44fd-9865-5597bb53b80d" class="image"><a href="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2036.png"><img style="width:667px" src="Project%202%20163c98d1429c412fb58cbe826cbbea6c/Untitled%2036.png"/></a></figure><p id="54c4adf5-4509-4587-adc5-cf931a7bec72" class="">
+</p><p id="120fbb37-d226-4bed-80b6-10bb0b2d0b3b" class="">This was a successful deployment of a React application using AWS Amplify, AWS Cognito authentication was added to the app to allow users to create accounts and sign it. The app had a scalable GraphQL API utilising a AWS DynamoDB database, which facilitates Notes to be created,edited,deleted and an S3 Bucket object storage to store uploaded image files which are associated with each note. </p><p id="ffd59670-bc87-4b5a-bd49-537c8dee1b1c" class="">
+</p><p id="cafd107e-7058-4e97-9abe-176c725d3956" class="">Notes:</p><p id="139eb8c6-9276-4e2b-ac78-b59808dc24dc" class="">Utilise AWS Resource Explorer and AWS Cost Explorer to further assess resource usage and also any incurred costs for this project. </p><p id="0bb97857-c241-4f56-a3b9-a2b4d124825c" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
